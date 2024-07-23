@@ -1,8 +1,5 @@
-import React, { Suspense } from 'react';
-import { Canvas } from '@react-three/fiber';
-import { OrbitControls, useGLTF , Stage ,PresentationControls, Shadow } from '@react-three/drei';
+import React from 'react';
 import Helicopter from './components/helicopter/Helicopter';
-
 
 function App() {
   return (

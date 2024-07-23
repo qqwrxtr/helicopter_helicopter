@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
-import helicopter_img from './../../assets/img/helicopter.png';
+import helicopter_img from './../../assets/img/res_vector.gif';
 import point_img from './../../assets/img/coin.png';
 import Points from './../points/Points.jsx';
+import Popup from './../PopUp/Popup.jsx';
 
 const Helicopter = () => {
     const [position, setPosition] = useState({ x: 0, y: 0 });
@@ -11,6 +12,7 @@ const Helicopter = () => {
     const [points, setPoints] = useState(Array.from({ length: 20 }, (_, id) => ({ id, x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight })));
     const keys = useRef({});
 
+    
     const handleKeyDown = (event) => {
         keys.current[event.key] = true;
     };
@@ -25,6 +27,7 @@ const Helicopter = () => {
     useEffect(() => {
         const moveHelicopter = () => {
             setPosition((prev) => {
+                         
                 let newX = prev.x;
                 let newY = prev.y;
 
@@ -36,7 +39,7 @@ const Helicopter = () => {
                     setMirror(true);
                 }
                 if (keys.current['d'] || keys.current['ArrowRight']) {
-                    newX = Math.min(window.innerWidth - 50, newX + 2); // Adjust for helicopter width
+                    newX = Math.min(window.innerWidth - 50, newX + 2);
                     setTilt(10);
                     setMirror(false);
                 }
@@ -72,8 +75,11 @@ const Helicopter = () => {
         });
     }, [position, points]);
 
+    
     return (
-        <div className="col jopic" style={{ position: 'relative', width: '100%', height: '100vh', overflow: 'hidden' }}>
+      <>
+          <Popup/>
+          <div className="col jopic" style={{ position: 'relative', width: '100%', height: '100vh', overflow: 'hidden' }}>
             <div 
                 style={{
                     position: 'absolute', 
@@ -92,6 +98,8 @@ const Helicopter = () => {
                 Score: {score}
             </div>
         </div>
+      </>
+
     );
 };
 
