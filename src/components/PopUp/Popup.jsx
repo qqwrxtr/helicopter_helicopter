@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import './popup.css';
-import sound from "./../../assets/sound/bell206-53009.mp3";
+import sound from "./../../assets/sound/hzzaebal.mp3";
 import wasd from "./../../assets/img/wasd2-removebg-preview.png";
 
 const Popup = ({ onPlay }) => {
