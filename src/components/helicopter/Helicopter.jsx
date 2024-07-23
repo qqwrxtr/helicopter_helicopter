@@ -29,7 +29,7 @@ const Helicopter = () => {
                 let newX = prev.x;
                 let newY = prev.y;
 
-                const speed = 3; // 1.5x faster than the original speed of 2
+                const speed = 4;
 
                 if (keys.current['w'] || keys.current['ArrowUp']) newY -= speed;
                 if (keys.current['s'] || keys.current['ArrowDown']) newY += speed;
