@@ -12,7 +12,6 @@ const Helicopter = () => {
     const [points, setPoints] = useState(Array.from({ length: 20 }, (_, id) => ({ id, x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight })));
     const keys = useRef({});
 
-    
     const handleKeyDown = (event) => {
         keys.current[event.key] = true;
     };
@@ -27,21 +26,32 @@ const Helicopter = () => {
     useEffect(() => {
         const moveHelicopter = () => {
             setPosition((prev) => {
-                         
                 let newX = prev.x;
                 let newY = prev.y;
 
-                if (keys.current['w'] || keys.current['ArrowUp']) newY = Math.max(0, newY - 2);
-                if (keys.current['s'] || keys.current['ArrowDown']) newY = Math.min(window.innerHeight - 50, newY + 2); // Adjust for helicopter height
+                const speed = 3; // 1.5x faster than the original speed of 2
+
+                if (keys.current['w'] || keys.current['ArrowUp']) newY -= speed;
+                if (keys.current['s'] || keys.current['ArrowDown']) newY += speed;
                 if (keys.current['a'] || keys.current['ArrowLeft']) {
-                    newX = Math.max(0, newX - 2);
+                    newX -= speed;
                     setTilt(-10);
                     setMirror(true);
                 }
                 if (keys.current['d'] || keys.current['ArrowRight']) {
-                    newX = Math.min(window.innerWidth - 100, newX + 2);
+                    newX += speed;
                     setTilt(10);
                     setMirror(false);
+                }
+
+                if (newX < -195) {
+                    newX = window.innerWidth - 50; 
+                } else if (newX > window.innerWidth - 5) {
+                    newX = -50; 
+                } else if (newY < -195) {
+                    newY = window.innerHeight - 50; 
+                } else if (newY > window.innerHeight - 5) {
+                    newY = -50; 
                 }
 
                 return { x: newX, y: newY };
@@ -75,41 +85,38 @@ const Helicopter = () => {
         });
     }, [position, points]);
 
-
     useEffect(() => {
-      if (score > 1000) {
-          window.alert('Maladet,esti un jucator bun');
-          setScore(0);
-          setPosition({ x: 0, y: 0 });
-          setPoints(Array.from({ length: 20 }, (_, id) => ({ id, x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight })));
-      }
-  }, [score]);
-  
-    
-    return (
-      <>
-          <Popup/>
-          <div className="col jopic" style={{ position: 'relative', width: '100%', height: '100vh', overflow: 'hidden' }}>
-            <div 
-                style={{
-                    position: 'absolute', 
-                    left: `${position.x}px`, 
-                    top: `${position.y}px`, 
-                    transform: `rotate(${tilt}deg) scaleX(${mirror ? -1 : 1})`,
-                    transition: 'transform 0.1s'
-                }}
-            >
-                <img src={helicopter_img} alt="helicopter" width="100" height="100" />
-            </div>
-            {points.map(point => (
-                <Points key={point.id} x={point.x} y={point.y} img={point_img} />
-            ))}
-            <div style={{ position: 'fixed', top: '10px', left: '50%', transform: 'translateX(-50%)', fontSize:"26px",color:"white" }}>
-                Score: {score}
-            </div>
-        </div>
-      </>
+        if (score >= 200) {
+            window.alert('You win!');
+            setScore(0);
+            setPosition({ x: 0, y: 0 });
+            setPoints(Array.from({ length: 20 }, (_, id) => ({ id, x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight })));
+        }
+    }, [score]);
 
+    return (
+        <>
+            <Popup/>
+            <div className="col jopic" style={{ position: 'relative', width: '100%', height: '100vh', overflow: 'hidden' }}>
+                <div 
+                    style={{
+                        position: 'absolute', 
+                        left: `${position.x}px`, 
+                        top: `${position.y}px`, 
+                        transform: `rotate(${tilt}deg) scaleX(${mirror ? -1 : 1})`,
+                        transition: 'transform 0.1s'
+                    }}
+                >
+                    <img src={helicopter_img} alt="helicopter" width="100" height="100" />
+                </div>
+                {points.map(point => (
+                    <Points key={point.id} x={point.x} y={point.y} img={point_img} />
+                ))}
+                <div style={{ position: 'fixed', top: '10px', left: '50%', transform: 'translateX(-50%)', fontSize:"26px",color:"white" }}>
+                    Score: {score}
+                </div>
+            </div>
+        </>
     );
 };
 
