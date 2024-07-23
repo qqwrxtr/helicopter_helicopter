@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import helicopter_img from './../../assets/img/res_vector.gif';
+import helicopter_img from './../../assets/img/Helicopter_white.gif';
 import point_img from './../../assets/img/coin.png';
 import Points from './../points/Points.jsx';
 import Popup from './../PopUp/Popup.jsx';
@@ -39,7 +39,7 @@ const Helicopter = () => {
                     setMirror(true);
                 }
                 if (keys.current['d'] || keys.current['ArrowRight']) {
-                    newX = Math.min(window.innerWidth - 50, newX + 2);
+                    newX = Math.min(window.innerWidth - 100, newX + 2);
                     setTilt(10);
                     setMirror(false);
                 }
@@ -75,6 +75,16 @@ const Helicopter = () => {
         });
     }, [position, points]);
 
+
+    useEffect(() => {
+      if (score > 1000) {
+          window.alert('Maladet,esti un jucator bun');
+          setScore(0);
+          setPosition({ x: 0, y: 0 });
+          setPoints(Array.from({ length: 20 }, (_, id) => ({ id, x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight })));
+      }
+  }, [score]);
+  
     
     return (
       <>
@@ -94,7 +104,7 @@ const Helicopter = () => {
             {points.map(point => (
                 <Points key={point.id} x={point.x} y={point.y} img={point_img} />
             ))}
-            <div style={{ position: 'fixed', top: '10px', left: '50%', transform: 'translateX(-50%)' }}>
+            <div style={{ position: 'fixed', top: '10px', left: '50%', transform: 'translateX(-50%)', fontSize:"26px",color:"white" }}>
                 Score: {score}
             </div>
         </div>
