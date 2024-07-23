@@ -1,9 +1,3 @@
-.jopic img{
-    width: 150px !important;
-    height: 150px !important;
-}
-
 .col.jopic img {
     transition: transform 0.1s ease-out;
   }
-  

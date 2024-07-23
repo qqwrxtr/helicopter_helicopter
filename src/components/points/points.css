@@ -1,0 +1,9 @@
+.points-container {
+    position: relative;
+}
+
+.points-container img{
+    position: absolute;
+    width: 40px !important;
+    height: 40px !important; 
+  }
